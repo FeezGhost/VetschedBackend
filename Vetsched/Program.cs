@@ -1,19 +1,72 @@
+using Loader.infrastructure.Extensions;
+using Loader.infrastructure.GenericRepository;
+using Loader.infrastructure.Helper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Npgsql;
+using System.Configuration;
+using Vetsched.Data;
+using Vetsched.Data.DBContexts;
+using Vetsched.Data.Entities;
+using Vetsched.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
+var configuration = builder.Configuration;
+
+//builder.Services.AddDbContext<VetschedContext>(options =>
+//    options.UseNpgsql(
+//        configuration.GetConnectionString("DefaultConnection"),
+//        npgsqlOptionsAction: sqlOptions =>
+//        {
+//            sqlOptions.MigrationsAssembly("api");
+//            sqlOptions.EnableRetryOnFailure(
+//            maxRetryCount: 10,
+//            maxRetryDelay: TimeSpan.FromSeconds(30),
+//            errorCodesToAdd: null);
+        //}), ServiceLifetime.Scoped);
+
+// Add services to the container.
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
+
+builder.Services.ConfigureDBContext(configuration);
+builder.Services.ConfigureAuthentication(configuration);
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+     .AddEntityFrameworkStores<VetschedContext>()
+     .AddDefaultTokenProviders();
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+options.TokenLifespan = TimeSpan.FromDays(31));
+//Services
+builder.Services.AddScoped<IAuthHelper, AuthHelper>();
+builder.Services.AddScoped<IdentityServiceInterface, IdentityService>();
+//Repositories
+builder.Services.AddTransient(typeof(IRepository<,>), typeof(Repository<,>));
 builder.Services.AddControllers();
+
+builder.Services.AddMvc();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+//using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+//{
+//    var VetContext = serviceScope.ServiceProvider.GetService<VetschedContext>();
+//    VetContext.Database.Migrate();
+
+//    using (var conn = (NpgsqlConnection)VetContext.Database.GetDbConnection())
+//    {
+//        conn.Open();
+//        conn.ReloadTypes();
+//    }
+//}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -24,8 +77,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors("CorsPolicy");
 
 app.MapControllers();
 
