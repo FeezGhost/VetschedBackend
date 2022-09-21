@@ -12,6 +12,8 @@ using Vetsched.Data;
 using Vetsched.Data.DBContexts;
 using Vetsched.Data.Entities;
 using Vetsched.Services;
+using AutoMapper;
+using Vetsched.Data.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,11 +30,12 @@ var configuration = builder.Configuration;
 //            maxRetryCount: 10,
 //            maxRetryDelay: TimeSpan.FromSeconds(30),
 //            errorCodesToAdd: null);
-        //}), ServiceLifetime.Scoped);
+//}), ServiceLifetime.Scoped);
 
 // Add services to the container.
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
 
 
 builder.Services.ConfigureDBContext(configuration);
@@ -42,14 +45,24 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
      .AddDefaultTokenProviders();
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
 options.TokenLifespan = TimeSpan.FromDays(31));
+
+//AutoMapper Configuration
+builder.Services.AddAutoMapper(mc =>
+{
+    mc.AddProfile<VetschedMappingProfile>();
+});
+
 //Services
-builder.Services.AddScoped<IAuthHelper, AuthHelper>();
 builder.Services.AddScoped<IdentityServiceInterface, IdentityService>();
+builder.Services.AddScoped<IServicesProviderService, ServicesProviderService>();
 //Repositories
 builder.Services.AddTransient(typeof(IRepository<,>), typeof(Repository<,>));
-builder.Services.AddControllers();
+//Helper
+builder.Services.AddScoped<IAuthHelper, AuthHelper>();
 
+builder.Services.AddControllers();
 builder.Services.AddMvc();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

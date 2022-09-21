@@ -120,15 +120,13 @@ namespace Vetsched.Services
                 LastName = registrationRequest.LastName,
                 PhoneNumber = registrationRequest.Phone,
                 UserName = registrationRequest.Email,
-                JobTitle = registrationRequest.JobTitle,
+                ProfileType = registrationRequest.ProfileType,
                 Email = registrationRequest.Email,
                 PasswordHash = registrationRequest.Password,
                 Gender = registrationRequest.Gender,
                 VerificationCode = "0332A",
                 ProfileImage = "",
-                TimeZoneInfo = "",
                 CreatedBy = "",
-                ImageUri = "",
                 ModifiedBy = ""
 
             };

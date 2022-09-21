@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Vetsched.Data.DBContexts;
@@ -11,9 +12,10 @@ using Vetsched.Data.DBContexts;
 namespace Vetsched.Migrations
 {
     [DbContext(typeof(VetschedContext))]
-    partial class VetschedContextModelSnapshot : ModelSnapshot
+    [Migration("20220921201215_ProfileBasicExtensions")]
+    partial class ProfileBasicExtensions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,6 +25,21 @@ namespace Vetsched.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "gender", new[] { "male", "female", "other" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "profile_type", new[] { "pet_lover", "service_provider", "default" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ApplicationUserService", b =>
+                {
+                    b.Property<Guid>("ProvidersId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ServicesId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ProvidersId", "ServicesId");
+
+                    b.HasIndex("ServicesId");
+
+                    b.ToTable("ApplicationUserService");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
@@ -112,21 +129,6 @@ namespace Vetsched.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ServiceUserProfile", b =>
-                {
-                    b.Property<Guid>("ProvidersId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ServicesId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ProvidersId", "ServicesId");
-
-                    b.HasIndex("ServicesId");
-
-                    b.ToTable("ServiceUserProfile");
-                });
-
             modelBuilder.Entity("Vetsched.Data.Entities.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
@@ -212,6 +214,10 @@ namespace Vetsched.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ImageUri")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -239,6 +245,9 @@ namespace Vetsched.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
+
+                    b.Property<int>("NumberOfPet")
+                        .HasColumnType("integer");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
@@ -405,52 +414,19 @@ namespace Vetsched.Migrations
                     b.ToTable("services");
                 });
 
-            modelBuilder.Entity("Vetsched.Data.Entities.UserProfile", b =>
+            modelBuilder.Entity("ApplicationUserService", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                    b.HasOne("Vetsched.Data.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("ProvidersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("created_by");
-
-                    b.Property<DateTimeOffset?>("CreatedWhen")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_when");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("modified_by");
-
-                    b.Property<DateTimeOffset?>("ModifiedWhen")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_when");
-
-                    b.Property<int>("NumberOfPet")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProfileType")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("UserProfile");
+                    b.HasOne("Vetsched.Data.Entities.Service", null)
+                        .WithMany()
+                        .HasForeignKey("ServicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -489,21 +465,6 @@ namespace Vetsched.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ServiceUserProfile", b =>
-                {
-                    b.HasOne("Vetsched.Data.Entities.UserProfile", null)
-                        .WithMany()
-                        .HasForeignKey("ProvidersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vetsched.Data.Entities.Service", null)
-                        .WithMany()
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Vetsched.Data.Entities.ApplicationUser", b =>
                 {
                     b.HasOne("Vetsched.Data.Entities.ApplicationUser", "Manager")
@@ -530,7 +491,7 @@ namespace Vetsched.Migrations
 
             modelBuilder.Entity("Vetsched.Data.Entities.Pet", b =>
                 {
-                    b.HasOne("Vetsched.Data.Entities.UserProfile", "PetLover")
+                    b.HasOne("Vetsched.Data.Entities.ApplicationUser", "PetLover")
                         .WithMany("Pets")
                         .HasForeignKey("PetLoverId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -539,19 +500,7 @@ namespace Vetsched.Migrations
                     b.Navigation("PetLover");
                 });
 
-            modelBuilder.Entity("Vetsched.Data.Entities.UserProfile", b =>
-                {
-                    b.HasOne("Vetsched.Data.Entities.ApplicationUser", null)
-                        .WithMany("Profiles")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
             modelBuilder.Entity("Vetsched.Data.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("Profiles");
-                });
-
-            modelBuilder.Entity("Vetsched.Data.Entities.UserProfile", b =>
                 {
                     b.Navigation("Pets");
                 });

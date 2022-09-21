@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Vetsched.Data.DBContexts;
@@ -11,9 +12,10 @@ using Vetsched.Data.DBContexts;
 namespace Vetsched.Migrations
 {
     [DbContext(typeof(VetschedContext))]
-    partial class VetschedContextModelSnapshot : ModelSnapshot
+    [Migration("20220921192228_ProfileTypeInUser")]
+    partial class ProfileTypeInUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,21 +114,6 @@ namespace Vetsched.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ServiceUserProfile", b =>
-                {
-                    b.Property<Guid>("ProvidersId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ServicesId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ProvidersId", "ServicesId");
-
-                    b.HasIndex("ServicesId");
-
-                    b.ToTable("ServiceUserProfile");
-                });
-
             modelBuilder.Entity("Vetsched.Data.Entities.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
@@ -184,6 +171,9 @@ namespace Vetsched.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<Guid?>("ActiveAccount")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -211,6 +201,10 @@ namespace Vetsched.Migrations
 
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ImageUri")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -261,6 +255,10 @@ namespace Vetsched.Migrations
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("TimeZoneInfo")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
@@ -322,137 +320,6 @@ namespace Vetsched.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Vetsched.Data.Entities.Pet", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("created_by");
-
-                    b.Property<DateTimeOffset?>("CreatedWhen")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_when");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("modified_by");
-
-                    b.Property<DateTimeOffset?>("ModifiedWhen")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_when");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.Property<Guid>("PetLoverId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PetLoverId");
-
-                    b.ToTable("pets");
-                });
-
-            modelBuilder.Entity("Vetsched.Data.Entities.Service", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("created_by");
-
-                    b.Property<DateTimeOffset?>("CreatedWhen")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_when");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("modified_by");
-
-                    b.Property<DateTimeOffset?>("ModifiedWhen")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_when");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("services");
-                });
-
-            modelBuilder.Entity("Vetsched.Data.Entities.UserProfile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("created_by");
-
-                    b.Property<DateTimeOffset?>("CreatedWhen")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_when");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("modified_by");
-
-                    b.Property<DateTimeOffset?>("ModifiedWhen")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modified_when");
-
-                    b.Property<int>("NumberOfPet")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProfileType")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("UserProfile");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Vetsched.Data.Entities.ApplicationRole", null)
@@ -489,21 +356,6 @@ namespace Vetsched.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ServiceUserProfile", b =>
-                {
-                    b.HasOne("Vetsched.Data.Entities.UserProfile", null)
-                        .WithMany()
-                        .HasForeignKey("ProvidersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vetsched.Data.Entities.Service", null)
-                        .WithMany()
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Vetsched.Data.Entities.ApplicationUser", b =>
                 {
                     b.HasOne("Vetsched.Data.Entities.ApplicationUser", "Manager")
@@ -526,34 +378,6 @@ namespace Vetsched.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Vetsched.Data.Entities.Pet", b =>
-                {
-                    b.HasOne("Vetsched.Data.Entities.UserProfile", "PetLover")
-                        .WithMany("Pets")
-                        .HasForeignKey("PetLoverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PetLover");
-                });
-
-            modelBuilder.Entity("Vetsched.Data.Entities.UserProfile", b =>
-                {
-                    b.HasOne("Vetsched.Data.Entities.ApplicationUser", null)
-                        .WithMany("Profiles")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("Vetsched.Data.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("Profiles");
-                });
-
-            modelBuilder.Entity("Vetsched.Data.Entities.UserProfile", b =>
-                {
-                    b.Navigation("Pets");
                 });
 #pragma warning restore 612, 618
         }
