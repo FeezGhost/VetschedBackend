@@ -46,6 +46,10 @@ namespace Vetsched.Data.DBContexts
              .HasOne<UserProfile>(s => s.PetLover)
              .WithMany(p => p.Pets);
 
+            modelBuilder.Entity<UserProfile>()
+                .HasOne<ApplicationUser>(up => up.User)
+                .WithMany(au => au.Profiles)
+                .HasForeignKey(up => up.UserId);
             //.
             //.Map(cs =>
             //{

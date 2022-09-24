@@ -45,13 +45,13 @@ namespace Vetsched.Controllers
         [HttpGet("ProviderServices")]
         public async Task<ActionResult<List<ServicesDto>>> ProviderServices(Guid ProfileId)
         {
-            var res = await _servicesProviderServic.GetProviderServices(ProfileId);
+            var res = _servicesProviderServic.GetProviderServices(ProfileId);
             return Ok(res);
         }
         [HttpGet("ServicesProvider")]
-        public async Task<ActionResult<List<ServicesDto>>> ServicesProvider(Guid ServiceId)
+        public async Task<ActionResult<List<UserBaseResponseDto>>> ServicesProvider(Guid ServiceId)
         {
-            var res = await _servicesProviderServic.GetProviderServices(ServiceId);
+            var res = _servicesProviderServic.GetProviderServices(ServiceId);
             return Ok(res);
         }
         [HttpGet("GetSingle")]

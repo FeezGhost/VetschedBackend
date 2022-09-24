@@ -7,8 +7,8 @@ namespace Vetsched.Services
     {
         Task<List<ServicesDto>> GetAllServices();
         Task<ServicesDto> GetService(Guid ServiceId);
-        Task<List<ServicesDto>> GetProviderServices(Guid ProviderId);
-        Task<ServicesDto> GetServicesProvider(Guid ServiceId);
+        List<ServicesDto> GetProviderServices(Guid ProviderId);
+        List<UserBaseResponseDto> GetServicesProvider(Guid ServiceId);
         Task<bool> AddServiceToProfile(AddServicesDto request);
         Task<bool> RemoveServiceFromProfile(Guid ServiceId, Guid ProfileId);
     }

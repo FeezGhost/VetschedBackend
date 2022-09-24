@@ -2,7 +2,7 @@
 {
     public class AddServicesDto
     {
-        public Guid UserId { get; set; }
+        public Guid ProfileId { get; set; }
         public List<Guid> ServiceIds { get; set; }
     }
 }
