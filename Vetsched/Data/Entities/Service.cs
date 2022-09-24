@@ -10,6 +10,6 @@ namespace Vetsched.Data.Entities
         public string Name { get; set; }
         [Column("category")]
         public ServiceCategory Category { get; set; }
-        public List<UserProfile> Providers { get; set; }
+        public List<ServiceProvider> Providers { get; set; }
     }
 }

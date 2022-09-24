@@ -32,7 +32,7 @@ namespace Loader.infrastructure.GenericRepository
             {
                 entity.Id = Guid.NewGuid();
             }
-            //entity.CreatedBy = entity.ModifiedBy = _context.getUserId();
+            entity.CreatedBy = entity.ModifiedBy = "usman";
             entity.CreatedWhen = DateTime.UtcNow;
             entity.ModifiedWhen = DateTime.UtcNow;
             entity.Deleted = false;

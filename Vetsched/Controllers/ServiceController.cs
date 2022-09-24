@@ -51,7 +51,7 @@ namespace Vetsched.Controllers
         [HttpGet("ServicesProvider")]
         public async Task<ActionResult<List<UserBaseResponseDto>>> ServicesProvider(Guid ServiceId)
         {
-            var res = _servicesProviderServic.GetProviderServices(ServiceId);
+            var res = _servicesProviderServic.GetServicesProvider(ServiceId);
             return Ok(res);
         }
         [HttpGet("GetSingle")]

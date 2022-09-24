@@ -5,7 +5,7 @@ namespace Vetsched.Data.Dtos.Response
 {
     public class UserBaseResponseDto
     {
-        public Guid UserId { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Gender Gender { get; set; }

@@ -15,6 +15,7 @@ namespace Vetsched.Data.DBContexts
         public DbSet<Service> Service { get; set; }
         public DbSet<Pet> Pet { get; set; }
         public DbSet<UserProfile> UserProfile { get; set; }
+        public DbSet<Entities.ServiceProvider> ServiceProvider { get; set; }
         public static void RegisterType()
         {
             NpgsqlConnection.GlobalTypeMapper.MapEnum<Gender>();
@@ -39,9 +40,15 @@ namespace Vetsched.Data.DBContexts
             modelBuilder.HasPostgresEnum<ProfileType>();
             modelBuilder.HasPostgresEnum<ServiceCategory>();
 
-            modelBuilder.Entity<Service>()
-             .HasMany<UserProfile>(s => s.Providers)
-             .WithMany(c => c.Services);
+            modelBuilder.Entity<Entities.ServiceProvider>()
+             .HasOne(s => s.Service)
+             .WithMany(c => c.Providers)
+             .HasForeignKey(s => s.ServiceId);
+
+            modelBuilder.Entity<Entities.ServiceProvider>()
+             .HasOne(s => s.Provider)
+             .WithMany(c => c.ProvidedServices)
+             .HasForeignKey(s => s.ProviderId);
 
 
             modelBuilder.Entity<Pet>()

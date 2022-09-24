@@ -6,6 +6,7 @@ using Vetsched.Data.DBContexts;
 using Vetsched.Data.Dtos.Request;
 using Vetsched.Data.Dtos.Response;
 using Vetsched.Data.Entities;
+using ServiceProvider = Vetsched.Data.Entities.ServiceProvider;
 
 namespace Vetsched.Services
 {
@@ -14,26 +15,32 @@ namespace Vetsched.Services
         private readonly IRepository<Service, VetschedContext> _repositoryService;
         private readonly IRepository<UserProfile, VetschedContext> _repositoryProfile;
         private readonly IMapper _mapper;
-        private readonly UserManager<ApplicationUser> _repository;
+        private readonly IRepository<ServiceProvider, VetschedContext> _repositoryServiceProvider;
         public ServicesProviderService(
             IRepository<Service, VetschedContext> repositoryService,
-            UserManager<ApplicationUser> repository,
             IMapper mapper,
-            IRepository<UserProfile, VetschedContext> repositoryProfile
+            IRepository<UserProfile, VetschedContext> repositoryProfile, 
+            IRepository<ServiceProvider, VetschedContext> repositoryServiceProvider
             )
         {
             _repositoryService = repositoryService;
-            _repository = repository;
             _mapper = mapper;
             _repositoryProfile = repositoryProfile;
+            _repositoryServiceProvider = repositoryServiceProvider;
         }
 
         public async Task<bool> AddServiceToProfile(AddServicesDto request)
         {
             var services = await _repositoryService.GetMany(x => request.ServiceIds.Contains(x.Id));
-            var provider = _repositoryProfile.GetOneDefaultWithInclude(x => x.Id == request.ProfileId, "Services");
-            provider.Services.AddRange(services);
-            var response = await _repositoryProfile.UpdateAsync(provider);
+            foreach(var service in services)
+            {
+                var serviceProvider = new ServiceProvider
+                {
+                    ProviderId = request.ProfileId,
+                    ServiceId = service.Id,
+                };
+                await _repositoryServiceProvider.AddAsync(serviceProvider);
+            }
             return true;
         }
 
@@ -46,8 +53,8 @@ namespace Vetsched.Services
 
         public List<ServicesDto> GetProviderServices(Guid ProviderId)
         {
-            var provider = _repositoryProfile.GetOneDefaultWithInclude(x => x.Id == ProviderId, "Services");
-            var services = provider.Services;
+            var providers = _repositoryServiceProvider.GetWithInclude(x => x.ProviderId == ProviderId, "Service").ToList();
+            var services = providers.Select(x => x.Service).ToList();
             var servicesResponse = _mapper.Map<List<ServicesDto>>(services);
             return servicesResponse.ToList();
         }
@@ -66,17 +73,16 @@ namespace Vetsched.Services
 
         public List<UserBaseResponseDto> GetServicesProvider(Guid ServiceId)
         {
-            var service =  _repositoryService.GetOneDefaultWithInclude(x => x.Id == ServiceId, "Providers", "Providers.User");
-            var providers = service.Providers.Select(x => x.User).ToList();
+            var service =  _repositoryServiceProvider.GetWithInclude(x => x.ServiceId == ServiceId, "Provider", "Provider.User").ToList();
+            var providers = service.Select(x => x.Provider.User).ToList();
             var providersResponse = _mapper.Map<List<UserBaseResponseDto>>(providers);
             return providersResponse;
         }
 
         public async Task<bool> RemoveServiceFromProfile(Guid ServiceId, Guid ProfileId)
         {
-            var provider = _repositoryProfile.GetOneDefaultWithInclude(x => x.Id == ProfileId, "Services");
-            provider.Services = provider.Services.Where(x => x.Id != ServiceId).ToList();
-            var response = await _repositoryProfile.UpdateAsync(provider);
+            var serviceProvider = await _repositoryServiceProvider.GetFirst(x => x.ProviderId == ProfileId && x.ServiceId == ServiceId);
+            await _repositoryServiceProvider.DeleteAsync(serviceProvider.Id);
             return true;
         }
     }
