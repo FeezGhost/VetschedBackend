@@ -26,4 +26,8 @@ namespace Vetsched.Data.Dtos.Response
         public bool IsActive { get; set; } 
         public int NumberOfPet { get; set; }
     }
+    public class UserProfiles : UserBaseResponseDto
+    {
+
+    }
 }

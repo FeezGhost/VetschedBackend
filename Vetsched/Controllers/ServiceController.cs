@@ -15,14 +15,11 @@ namespace Vetsched.Controllers
     public class ServiceController : Controller
     {
         private readonly IServicesProviderService _servicesProviderServic;
-        private readonly IMapper _mapper;
         public ServiceController(
-            IServicesProviderService servicesProviderServic,
-            IMapper mapper
+            IServicesProviderService servicesProviderServic
             )
         {
             _servicesProviderServic = servicesProviderServic;
-            _mapper = mapper;
         }
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<ServicesDto>>> GetAll()
