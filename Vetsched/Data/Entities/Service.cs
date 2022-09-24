@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Vetsched.Data.Enums;
 
 namespace Vetsched.Data.Entities
 {
@@ -7,6 +8,8 @@ namespace Vetsched.Data.Entities
     {
         [Column("name")]
         public string Name { get; set; }
+        [Column("category")]
+        public ServiceCategory Category { get; set; }
         public List<UserProfile> Providers { get; set; }
     }
 }

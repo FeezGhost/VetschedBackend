@@ -19,6 +19,7 @@ namespace Vetsched.Data.DBContexts
         {
             NpgsqlConnection.GlobalTypeMapper.MapEnum<Gender>();
             NpgsqlConnection.GlobalTypeMapper.MapEnum<ProfileType>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<ServiceCategory>();
         }
         public VetschedContext(DbContextOptions options) : base(options)
         {
@@ -36,6 +37,7 @@ namespace Vetsched.Data.DBContexts
 
             modelBuilder.HasPostgresEnum<Gender>();
             modelBuilder.HasPostgresEnum<ProfileType>();
+            modelBuilder.HasPostgresEnum<ServiceCategory>();
 
             modelBuilder.Entity<Service>()
              .HasMany<UserProfile>(s => s.Providers)
