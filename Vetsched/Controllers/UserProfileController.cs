@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Vetsched.Data.Dtos.Request;
 using Vetsched.Data.Dtos.Response;
-using Vetsched.Services;
+using Vetsched.Services.UserProfileSrv;
 
 namespace Vetsched.Controllers
 {

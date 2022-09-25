@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Loader.identity_micro_service.Core.Dto;
+﻿using Loader.identity_micro_service.Core.Dto;
 using Loader.identity_micro_service.Models;
-using Loader.infrastructure.Helper;
+using Loader.infrastructure.Helper.Auth;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Vetsched.Data.DBContexts;
 using Vetsched.Data.Dtos;
 using Vetsched.Data.Entities;
 
-namespace Vetsched.Services
+namespace Vetsched.Services.IdentitySrv
 {
     public class IdentityService : IdentityServiceInterface
     {

@@ -2,7 +2,7 @@
 using Loader.identity_micro_service.Models;
 using Vetsched.Data.Dtos;
 
-namespace Vetsched.Services
+namespace Vetsched.Services.IdentitySrv
 {
     public interface IdentityServiceInterface
     {

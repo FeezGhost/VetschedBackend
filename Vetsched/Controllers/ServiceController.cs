@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using Loader.infrastructure.GenericRepository;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Vetsched.Data.DBContexts;
+﻿using Microsoft.AspNetCore.Mvc;
 using Vetsched.Data.Dtos.Request;
 using Vetsched.Data.Dtos.Response;
-using Vetsched.Data.Entities;
-using Vetsched.Services;
+using Vetsched.Services.ServicesProviderSrv;
 
 namespace Vetsched.Controllers
 {

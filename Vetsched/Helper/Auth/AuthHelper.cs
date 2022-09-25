@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using Vetsched.Data.Entities;
 
-namespace Loader.infrastructure.Helper
+namespace Loader.infrastructure.Helper.Auth
 {
     public class AuthHelper : IAuthHelper
     {

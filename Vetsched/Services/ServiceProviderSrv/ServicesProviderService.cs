@@ -6,7 +6,7 @@ using Vetsched.Data.Dtos.Response;
 using Vetsched.Data.Entities;
 using ServiceProvider = Vetsched.Data.Entities.ServiceProvider;
 
-namespace Vetsched.Services
+namespace Vetsched.Services.ServicesProviderSrv
 {
     public class ServicesProviderService : IServicesProviderService
     {

@@ -1,21 +1,15 @@
 using Loader.infrastructure.Extensions;
 using Loader.infrastructure.GenericRepository;
-using Loader.infrastructure.Helper;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
-using Npgsql;
-using System.Configuration;
-using Vetsched.Data;
 using Vetsched.Data.DBContexts;
 using Vetsched.Data.Entities;
-using Vetsched.Services;
-using AutoMapper;
 using Vetsched.Data.MappingProfiles;
 using Vetsched.Services.PetSrv;
-using Vetsched.Helper;
+using Vetsched.Services.IdentitySrv;
+using Vetsched.Services.ServicesProviderSrv;
+using Vetsched.Services.UserProfileSrv;
+using Vetsched.Helper.Conversions;
+using Loader.infrastructure.Helper.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 

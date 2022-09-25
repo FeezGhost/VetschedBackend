@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
-namespace Vetsched.Helper
+namespace Vetsched.Helper.Conversions
 {
     public interface IConversionHelper
     {

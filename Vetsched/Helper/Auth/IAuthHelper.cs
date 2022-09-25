@@ -1,6 +1,6 @@
 ﻿using Vetsched.Data.Entities;
 
-namespace Loader.infrastructure.Helper
+namespace Loader.infrastructure.Helper.Auth
 {
     public interface IAuthHelper
     {

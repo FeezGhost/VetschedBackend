@@ -5,7 +5,7 @@ using Vetsched.Data.Dtos.Request;
 using Vetsched.Data.Dtos.Response;
 using Vetsched.Data.Entities;
 
-namespace Vetsched.Services
+namespace Vetsched.Services.UserProfileSrv
 {
     public class UserProfileService : IUserProfileService
     {

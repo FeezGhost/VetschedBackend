@@ -5,7 +5,7 @@ using Vetsched.Data.Dtos.Request;
 using Vetsched.Data.Dtos.Response;
 using Vetsched.Data.Entities;
 using Vetsched.Data.Enums;
-using Vetsched.Helper;
+using Vetsched.Helper.Conversions;
 
 namespace Vetsched.Services.PetSrv
 {

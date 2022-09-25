@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Vetsched.Data.Dtos;
 using Vetsched.Data.Entities;
-using Vetsched.Services;
+using Vetsched.Services.IdentitySrv;
 
 namespace Vetsched.Controllers
 {

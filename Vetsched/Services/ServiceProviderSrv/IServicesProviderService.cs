@@ -1,7 +1,7 @@
 ﻿using Vetsched.Data.Dtos.Request;
 using Vetsched.Data.Dtos.Response;
 
-namespace Vetsched.Services
+namespace Vetsched.Services.ServicesProviderSrv
 {
     public interface IServicesProviderService
     {
