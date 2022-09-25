@@ -17,12 +17,12 @@ namespace Vetsched.Data.Dtos.Request
         public bool Microchiped { get; set; }
         public bool Vaccination { get; set; }
         public string Sepcies { get; set; }
-        public JsonElement? Allergies { get; set; }
-        public JsonElement? Medications { get; set; } // Add Current = true To check if it's current or not
+        public JObject? Allergies { get; set; }
+        public JObject? Medications { get; set; } // Add Current = true To check if it's current or not
         public string? LastVistDescription { get; set; }
         public string? VaccineRecieved { get; set; }
         public string? DueVaccine { get; set; }
-        public JsonElement? Details { get; set; }
+        public JObject? Details { get; set; }
     }
     public class PetUpdateRequestDto
     {
