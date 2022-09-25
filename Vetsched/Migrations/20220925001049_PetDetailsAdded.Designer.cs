@@ -3,6 +3,7 @@ using System;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Vetsched.Data.DBContexts;
@@ -12,9 +13,10 @@ using Vetsched.Data.DBContexts;
 namespace Vetsched.Migrations
 {
     [DbContext(typeof(VetschedContext))]
-    partial class VetschedContextModelSnapshot : ModelSnapshot
+    [Migration("20220925001049_PetDetailsAdded")]
+    partial class PetDetailsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
