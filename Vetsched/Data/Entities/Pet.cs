@@ -35,6 +35,9 @@ namespace Vetsched.Data.Entities
         public string? DueVaccine { get; set; }
         [Column("Details")]
         public JsonElement? Details { get; set; }
+        [Column("pet_lover_id")]
+        public Guid PetLoverId { get; set; }
+
 
         //TODO :: Add Attachments
         //TODO :: Add Comments

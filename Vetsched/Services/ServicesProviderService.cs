@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Loader.infrastructure.GenericRepository;
-using Microsoft.AspNetCore.Identity;
-using System.Linq;
 using Vetsched.Data.DBContexts;
 using Vetsched.Data.Dtos.Request;
 using Vetsched.Data.Dtos.Response;
@@ -13,19 +11,16 @@ namespace Vetsched.Services
     public class ServicesProviderService : IServicesProviderService
     {
         private readonly IRepository<Service, VetschedContext> _repositoryService;
-        private readonly IRepository<UserProfile, VetschedContext> _repositoryProfile;
         private readonly IMapper _mapper;
         private readonly IRepository<ServiceProvider, VetschedContext> _repositoryServiceProvider;
         public ServicesProviderService(
             IRepository<Service, VetschedContext> repositoryService,
             IMapper mapper,
-            IRepository<UserProfile, VetschedContext> repositoryProfile, 
             IRepository<ServiceProvider, VetschedContext> repositoryServiceProvider
             )
         {
             _repositoryService = repositoryService;
             _mapper = mapper;
-            _repositoryProfile = repositoryProfile;
             _repositoryServiceProvider = repositoryServiceProvider;
         }
 

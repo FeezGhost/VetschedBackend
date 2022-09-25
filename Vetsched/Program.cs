@@ -14,6 +14,8 @@ using Vetsched.Data.Entities;
 using Vetsched.Services;
 using AutoMapper;
 using Vetsched.Data.MappingProfiles;
+using Vetsched.Services.PetSrv;
+using Vetsched.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,10 +57,13 @@ builder.Services.AddAutoMapper(mc =>
 //Services
 builder.Services.AddScoped<IdentityServiceInterface, IdentityService>();
 builder.Services.AddScoped<IServicesProviderService, ServicesProviderService>();
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IPetService, PetService>();
 //Repositories
 builder.Services.AddTransient(typeof(IRepository<,>), typeof(Repository<,>));
 //Helper
 builder.Services.AddScoped<IAuthHelper, AuthHelper>();
+builder.Services.AddScoped<IConversionHelper, ConversionHelper>();
 
 builder.Services.AddControllers();
 builder.Services.AddMvc();
