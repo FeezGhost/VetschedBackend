@@ -79,18 +79,6 @@ namespace Vetsched.Services.IdentitySrv
                 return (401, "The login credentials don't match, please try again!");
             }
         }
-        //public async Task<string> OTPVerification(OTPRequestDto oTPRequestDto)
-        //{
-        //    var user = await _userManager.FindByEmailAsync(oTPRequestDto.UserName);
-
-        //    if (user.VerificationCode == oTPRequestDto.OTP)
-        //    {
-        //        return await _authHelper.GenerateJSONWebToken(user);
-        //    }
-        //    else
-        //        return "Please enter valid OTP";
-
-        //}
         public async Task<GenericDto<string>> ForgetPassword(string email)
         {
             string response = String.Empty;
